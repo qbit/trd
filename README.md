@@ -1,4 +1,3 @@
-=======
 # trd
 
 TFTP Rewrite Daemon
