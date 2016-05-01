@@ -1,0 +1,2 @@
+192.168.0.10 write /i386/bsd.rd
+192.168.0.11 write /amd64/bsd.rd
