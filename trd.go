@@ -3,8 +3,9 @@ package main
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"flag"
+	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -92,8 +93,8 @@ func main() {
 			line := string(scanner.Text())
 			err := r.parse(line)
 			if err != nil {
-				// just shit it back
 				log.Println("Spitting back")
+				io.Copy(conn, conn)
 			}
 
 			for _, rw := range *rws {
