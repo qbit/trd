@@ -31,7 +31,7 @@ func (r *Req) parse(s string) error {
 
 	ip := net.ParseIP(parts[0])
 	if ip == nil {
-		err := errors.New("Invali IP")
+		err := errors.New("Invalid IP")
 		return err
 	}
 
