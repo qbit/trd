@@ -9,7 +9,10 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/user"
 	"strings"
+	"strconv"
+	"syscall"
 )
 
 var debug bool
@@ -62,8 +65,10 @@ func makeRewrites(path string) (*Rewrites, error) {
 }
 
 func main() {
-	var cfile = flag.String("c", "/etc/rewrites.conf", "Path to rewrites file")
-	var sock = flag.String("s", "/tmp/trd.sock", "Path to socket")
+	var cfile = flag.String("c", "/etc/rewrites.conf", "path to rewrites file.")
+	var sock = flag.String("s", "/tmp/trd.sock", "path to socket.")
+	var root = flag.String("r", "/var/tftpd", "path to chroot to.")
+	var dUser = flag.String("u", "_tftpd", "user to drop privs to")
 	flag.BoolVar(&debug, "debug", false, "causes decomer to print debug info")
 	flag.Parse()
 
@@ -80,6 +85,26 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	syscall.Chroot(*root)
+
+	u, err := user.Lookup(*dUser)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	uid, err := strconv.Atoi(u.Uid)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	gid, err := strconv.Atoi(u.Gid)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	syscall.Setuid(uid)
+	syscall.Setgid(gid)
 
 	for {
 		conn, err := ln.Accept()
