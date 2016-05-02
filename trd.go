@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"net"
 	"os"
@@ -22,8 +21,6 @@ type Req struct {
 	op string
 	fn string
 }
-
-type Rewrites []Req
 
 func (r *Req) parse(s string) error {
 	parts := strings.Split(s, " ")
@@ -45,6 +42,34 @@ func (r *Req) parse(s string) error {
 	return nil
 }
 
+type Rewrite struct {
+	ip    net.IP
+	match string
+	fn    string
+}
+
+type Rewrites []Rewrite
+
+func (r *Rewrite) parse(s string) error {
+	parts := strings.Split(s, " ")
+	if len(parts) != 3 {
+		err := errors.New("Invalid string")
+		return err
+	}
+
+	ip := net.ParseIP(parts[0])
+	if ip == nil {
+		err := errors.New("Invalid IP")
+		return err
+	}
+
+	r.ip = ip
+	r.match = parts[1]
+	r.fn = parts[2]
+
+	return nil
+}
+
 func makeRewrites(path string) (*Rewrites, error) {
 	var rw Rewrites
 
@@ -56,7 +81,7 @@ func makeRewrites(path string) (*Rewrites, error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		var r Req
+		var r Rewrite
 		r.parse(string(scanner.Text()))
 		rw = append(rw, r)
 	}
@@ -118,16 +143,23 @@ func main() {
 			err := r.parse(line)
 			if err != nil {
 				log.Println("Spitting back")
-				io.Copy(conn, conn)
+				fmt.Fprintf(conn, "%s\n", line)
+				break
 			}
 
 			for _, rw := range *rws {
 				if rw.ip.Equal(r.ip) {
-					r.fn = rw.fn
+					if rw.match == r.fn {
+						log.Printf("rewriting '%s' as '%s'\n", r.fn, rw.fn)
+						fmt.Fprintf(conn, "%s\n", rw.fn)
+						break
+					} else {
+						log.Printf("no match for '%s'\n", line)
+						fmt.Fprintf(conn, "%s\n", r.fn)
+						break
+					}
 				}
 			}
-
-			fmt.Fprintf(conn, "%s %s %s\n", r.ip, r.op, r.fn)
 		}
 	}
 }

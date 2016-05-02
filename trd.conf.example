@@ -1,2 +1,2 @@
-192.168.0.10 write /i386/bsd.rd
-192.168.0.11 write /amd64/bsd.rd
+192.168.0.10 /etc/boot.conf /i386/etc/boot.conf
+192.168.0.11 /etc/boot.conf /amd64/etc/boot.conf
