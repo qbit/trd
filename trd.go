@@ -10,8 +10,8 @@ import (
 	"net"
 	"os"
 	"os/user"
-	"strings"
 	"strconv"
+	"strings"
 	"syscall"
 )
 
@@ -86,8 +86,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	syscall.Chroot(*root)
-
 	u, err := user.Lookup(*dUser)
 	if err != nil {
 		log.Fatal(err)
@@ -103,6 +101,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	syscall.Chroot(*root)
 	syscall.Setuid(uid)
 	syscall.Setgid(gid)
 
