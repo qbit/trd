@@ -90,7 +90,7 @@ func makeRewrites(path string) (*Rewrites, error) {
 }
 
 func main() {
-	var cfile = flag.String("c", "/etc/rewrites.conf", "path to rewrites file.")
+	var cfile = flag.String("c", "/etc/trd.conf", "path to rewrites file.")
 	var sock = flag.String("s", "/tmp/trd.sock", "path to socket.")
 	var root = flag.String("r", "/var/tftpd", "path to chroot to.")
 	var dUser = flag.String("u", "_tftpd", "user to drop privs to")
