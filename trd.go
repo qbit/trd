@@ -89,6 +89,12 @@ func makeRewrites(path string) (*Rewrites, error) {
 	return &rw, nil
 }
 
+func dbg(s string) {
+	if (debug) {
+		log.Printf(s)
+	}
+}
+
 func main() {
 	var cfile = flag.String("c", "/etc/trd.conf", "path to rewrites file.")
 	var sock = flag.String("s", "/tmp/trd.sock", "path to socket.")
@@ -103,6 +109,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	dbg(fmt.Sprintf("listening to: %s", *sock))
 
 	defer ln.Close()
 
@@ -127,8 +134,11 @@ func main() {
 	}
 
 	syscall.Chroot(*root)
+	dbg(fmt.Sprintf("chrooting to: %s", *root))
 	syscall.Setuid(uid)
+	dbg(fmt.Sprintf("setuid to: %s", u.Uid))
 	syscall.Setgid(gid)
+	dbg(fmt.Sprintf("setgid to: %s", u.Gid))
 
 	for {
 		conn, err := ln.Accept()
@@ -140,6 +150,7 @@ func main() {
 		for scanner.Scan() {
 			var r Req
 			line := string(scanner.Text())
+			dbg(fmt.Sprintf("RAW: '%s'", line))
 			err := r.parse(line)
 			if err != nil {
 				log.Println("Spitting back")
