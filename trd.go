@@ -53,7 +53,7 @@ type Rewrites []Rewrite
 func (r *Rewrite) parse(s string) error {
 	parts := strings.Split(s, " ")
 	if len(parts) != 3 {
-		err := errors.New("Invalid string")
+		err := errors.New(fmt.Sprintf("Invalid string: '%v'", parts))
 		return err
 	}
 
@@ -82,7 +82,10 @@ func makeRewrites(path string) (*Rewrites, error) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		var r Rewrite
-		r.parse(string(scanner.Text()))
+		err := r.parse(string(scanner.Text()))
+		if err != nil {
+			log.Fatal(err)
+		}
 		rw = append(rw, r)
 	}
 
@@ -150,7 +153,6 @@ func main() {
 		for scanner.Scan() {
 			var r Req
 			line := string(scanner.Text())
-			dbg(fmt.Sprintf("RAW: '%s'", line))
 			err := r.parse(line)
 			if err != nil {
 				log.Println("Spitting back")
