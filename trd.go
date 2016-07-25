@@ -93,7 +93,7 @@ func makeRewrites(path string) (*Rewrites, error) {
 }
 
 func dbg(s string) {
-	if (debug) {
+	if debug {
 		log.Printf(s)
 	}
 }
@@ -160,19 +160,16 @@ func main() {
 				break
 			}
 
+			actionString := r.fn
 			for _, rw := range *rws {
-				if rw.ip.Equal(r.ip) {
+				if r.ip.Equal(rw.ip) {
 					if rw.match == r.fn {
-						log.Printf("rewriting '%s' as '%s'\n", r.fn, rw.fn)
-						fmt.Fprintf(conn, "%s\n", rw.fn)
-						break
-					} else {
-						log.Printf("no match for '%s'\n", line)
-						fmt.Fprintf(conn, "%s\n", r.fn)
-						break
+						log.Printf("rewriting '%s' as '%s' for %s\n", r.fn, rw.fn, rw.ip)
+						actionString = rw.fn
 					}
 				}
 			}
+			fmt.Fprintf(conn, "%s\n", actionString)
 		}
 	}
 }
