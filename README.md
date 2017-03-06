@@ -68,7 +68,7 @@ trd.conf(5)
 
 OpenBSD 6.1 - May 1, 2016
 ---
-ACME-CLIENT.CONF(5) - File Formats Manual
+TRD.CONF(5) - File Formats Manual
 
 # NAME
 
