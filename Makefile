@@ -16,8 +16,7 @@ trd.conf.5: lint
 
 README.md: lint
 	mandoc -T markdown trd.8 >$@
-	echo "---" >> $@
-	mandoc -T markdown trd.conf.5 >> $@
+	mandoc -T markdown trd.conf.5 > trd.conf.md
 
 build:
 	go build
