@@ -7,10 +7,11 @@ TRD(8) - System Manager's Manual
 # SYNOPSIS
 
 **trd**
-\[**-c**&nbsp;*string*]
+\[**-csu**]
+\[**-c**&nbsp;\[config]]
+\[**-s**&nbsp;\[socket]]
+\[**-u**&nbsp;\[user]]
 \[**-debug**]
-\[**-s**&nbsp;*string*]
-\[**-u**&nbsp;*string*]
 
 # DESCRIPTION
 
@@ -33,37 +34,49 @@ The options are as follows:
 
 **-c** *config*
 
->Path of to config file.
->Default is
->*/etc/trd.conf*.
-
-**-debug**
-
->Tells
->**trd**
->to print debug messages.
+> Path to config file.
+> Default is
+> */etc/trd.conf*.
 
 **-s** *socket*
 
->Specifies the path to the socket
->**trd**
->should create.
->This needs to be passed to
->tftpd(1)
->via the
->**-r**
->option.
+> Specifies the path to the socket
+> **trd**
+> should create.
+> This needs to be passed to
+> tftpd(1)
+> via the
+> **-r**
+> option.
 
 **-u** *user*
 
->User
->**trd**
->should drop privlidges to.
->Default is \_tftpd.
+> User
+> **trd**
+> should drop privlidges to.
+> Default is \_tftpd.
+
+**-debug**
+
+> Tells
+> **trd**
+> to print debug messages.
 
 # SEE ALSO
 
 tftpd(1),
 trd.conf(5)
+
+# HISTORY
+
+The first version of
+**trd**
+was released in May of 2016.
+
+# AUTHORS
+
+**trd**
+was written by
+Aaron Bieber &lt;[aaron@bolddaemon.com](mailto:aaron@bolddaemon.com)&gt;.
 
 OpenBSD 6.1 - May 1, 2016
