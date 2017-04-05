@@ -1,0 +1,66 @@
+.Dd $Mdocdate: May 1 2016 $
+.Dt TRD 8
+.Os
+.Sh NAME
+.Nm trd
+.Nd TFTP Rewrite Daemon
+.Sh SYNOPSIS
+.Nm trd
+.Op Fl csu
+.Op Fl c Op config
+.Op Fl s Op socket
+.Op Fl u Op user
+.Op Fl debug
+.Sh DESCRIPTION
+OpenBSD's
+.Xr tftpd 1
+supports on-the-fly rewriting of file paths based on IP address.
+It does this by sending the tftp request lines over a socket that is
+specified via the
+.Fl r
+option.
+.Pp
+.Nm
+creates a socket and expects
+.Xr tftpd 1
+to send lines in the format of "IP OP filename".
+.Pp
+Hosts are matched by IP and requested filename.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl c Ar config
+Path to config file.
+Default is
+.Pa /etc/trd.conf .
+.It Fl s Ar socket
+Specifies the path to the socket
+.Nm
+should create.
+This needs to be passed to
+.Xr tftpd 1
+via the
+.Fl r
+option.
+.It Fl u Ar user
+User
+.Nm
+should drop privlidges to.
+Default is _tftpd.
+.It Fl debug
+Tells
+.Nm
+to print debug messages.
+.El
+.Sh SEE ALSO
+.Xr tftpd 1 ,
+.Xr trd.conf 5
+.Sh HISTORY
+The first version of
+.Nm
+was released in May of 2016.
+.Sh AUTHORS
+.An -nosplit
+.Nm
+was written by
+.An Aaron Bieber Aq Mt aaron@bolddaemon.com .
