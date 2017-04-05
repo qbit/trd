@@ -1,3 +1,4 @@
+VERSION =	`git describe --tags 2>/dev/null || git log -n 1 --format="%h"`
 PREFIX ?=	/usr/local
 MAN =		trd.8 trd.conf.5
 MANDIR ?=	${PREFIX}/man/man
@@ -19,7 +20,7 @@ README.md: lint
 	mandoc -T markdown trd.conf.5 > trd.conf.md
 
 build:
-	go build
+	go build -ldflags "-X main.version=${VERSION}"
 
 realinstall: build
 	install -d $(DESTDIR)$(PREFIX)/bin

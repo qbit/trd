@@ -15,6 +15,7 @@ import (
 )
 
 var debug bool
+var version string
 
 type Req struct {
 	ip net.IP
@@ -103,8 +104,14 @@ func main() {
 	var sock = flag.String("s", "/tmp/trd.sock", "path to socket.")
 	var root = flag.String("r", "/var/tftpd", "path to chroot to.")
 	var dUser = flag.String("u", "_tftpd", "user to drop privs to")
+	var ver = flag.Bool("v", false, "print version and exit")
 	flag.BoolVar(&debug, "debug", false, "causes decomer to print debug info")
 	flag.Parse()
+
+	if *ver {
+		fmt.Println(version)
+		os.Exit(0)
+	}
 
 	os.Remove(*sock)
 
