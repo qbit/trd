@@ -3,21 +3,21 @@ PREFIX ?=	/usr/local
 MAN =		trd.8 trd.conf.5
 MANDIR ?=	${PREFIX}/man/man
 
+clean:
+	rm -f trd ${MAN}
+
 lint:
-	mandoc -T lint trd.8
-	mandoc -T lint trd.conf.5
+	mandoc -T lint man/trd.8
+	mandoc -T lint man/trd.conf.5
 
 trd.8: lint
-	mandoc -T lint trd.8
-	mandoc -T ascii trd.8 >$@
+	mandoc -T ascii man/trd.8 >$@
 
 trd.conf.5: lint
-	mandoc -T lint trd.conf.5
-	mandoc -T ascii trd.conf.5 >$@
+	mandoc -T ascii man/trd.conf.5 >$@
 
 README.md: lint
-	mandoc -T markdown trd.8 >$@
-	mandoc -T markdown trd.conf.5 > trd.conf.md
+	mandoc -T markdown man/trd.8 >$@
 
 build:
 	go build -ldflags "-X main.version=${VERSION}"
