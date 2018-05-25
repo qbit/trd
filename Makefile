@@ -16,6 +16,9 @@ trd.8: lint
 trd.conf.5: lint
 	mandoc -T ascii man/trd.conf.5 >$@
 
+trd.conf.md: lint
+	mandoc -T markdown man/trd.conf.5 > $@
+
 README.md: lint
 	mandoc -T markdown man/trd.8 >$@
 

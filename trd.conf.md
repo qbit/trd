@@ -1,4 +1,4 @@
-TRD.CONF(5) - File Formats Manual
+ACME-CLIENT.CONF(5) - File Formats Manual
 
 # NAME
 
@@ -12,15 +12,15 @@ config file is split into three columns, delimited by a single space:
 
 **IP**
 
->Source IP address of the request.
+> Source IP address of the request.
 
 **Requested File**
 
->File that the source IP is requesting.
+> File that the source IP is requesting.
 
 **Rewrite File**
 
->File that the host should use instead of the requested file.
+> File that the host should use instead of the requested file.
 
 For example:
 
@@ -31,11 +31,11 @@ For example:
 
 */etc/trd.conf*
 
->trd(8)
->configuration file
+> **trd 8**
+> configuration file
 
 # SEE ALSO
 
-trd(8)
+**trd 8**
 
-OpenBSD 6.1 - May 1, 2016
+OpenBSD 6.3 - May 1, 2016
