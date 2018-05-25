@@ -1,3 +1,4 @@
+.\"     $OpenBSD: trd.8,v 1.00 2018/03/08 13:09:09 abieber Exp $
 .Dd $Mdocdate: May 1 2016 $
 .Dt TRD 8
 .Os
@@ -12,8 +13,8 @@
 .Op Fl u Op user
 .Op Fl debug
 .Sh DESCRIPTION
-OpenBSD's
-.Xr tftpd 1
+.Ox OpenBSD's
+.Xr tftpd 8
 supports on-the-fly rewriting of file paths based on IP address.
 It does this by sending the tftp request lines over a socket that is
 specified via the
@@ -22,7 +23,7 @@ option.
 .Pp
 .Nm
 creates a socket and expects
-.Xr tftpd 1
+.Xr tftpd 8
 to send lines in the format of "IP OP filename".
 .Pp
 Hosts are matched by IP and requested filename.
@@ -38,7 +39,7 @@ Specifies the path to the socket
 .Nm
 should create.
 This needs to be passed to
-.Xr tftpd 1
+.Xr tftpd 8
 via the
 .Fl r
 option.
@@ -53,8 +54,8 @@ Tells
 to print debug messages.
 .El
 .Sh SEE ALSO
-.Xr tftpd 1 ,
-.Xr trd.conf 5
+.Nm trd.conf 5 ,
+.Xr tftpd 8
 .Sh HISTORY
 The first version of
 .Nm
