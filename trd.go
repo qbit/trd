@@ -12,11 +12,14 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+
+	"golang.org/x/sys/unix"
 )
 
 var debug bool
 var version string
 
+// Req is a representation of our tftp requests
 type Req struct {
 	ip net.IP
 	op string
@@ -43,18 +46,20 @@ func (r *Req) parse(s string) error {
 	return nil
 }
 
+// Rewrite represent one of our re-write lines.
 type Rewrite struct {
 	ip    net.IP
 	match string
 	fn    string
 }
 
+// Rewrites are a grouping of lines
 type Rewrites []Rewrite
 
 func (r *Rewrite) parse(s string) error {
 	parts := strings.Split(s, " ")
 	if len(parts) != 3 {
-		err := errors.New(fmt.Sprintf("Invalid string: '%v'", parts))
+		err := fmt.Errorf("Invalid string: '%v'", parts)
 		return err
 	}
 
@@ -143,12 +148,25 @@ func main() {
 		log.Fatal(err)
 	}
 
-	syscall.Chroot(*root)
+	err = syscall.Chroot(*root)
+	if err != nil {
+		log.Fatal(err)
+	}
 	dbg(fmt.Sprintf("chrooting to: %s", *root))
-	syscall.Setuid(uid)
-	dbg(fmt.Sprintf("setuid to: %s", u.Uid))
-	syscall.Setgid(gid)
+
+	err = syscall.Setgid(gid)
+	if err != nil {
+		log.Fatal(err)
+	}
 	dbg(fmt.Sprintf("setgid to: %s", u.Gid))
+
+	err = syscall.Setuid(uid)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbg(fmt.Sprintf("setuid to: %s", u.Uid))
+
+	unix.Pledge("stdio rpath unix", nil)
 
 	for {
 		conn, err := ln.Accept()
