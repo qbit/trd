@@ -15,8 +15,8 @@ TRD(8) - System Manager's Manual
 
 # DESCRIPTION
 
-OpenBSD's
-tftpd(1)
+OpenBSD OpenBSD's
+tftpd(8)
 supports on-the-fly rewriting of file paths based on IP address.
 It does this by sending the tftp request lines over a socket that is
 specified via the
@@ -25,7 +25,7 @@ option.
 
 **trd**
 creates a socket and expects
-tftpd(1)
+tftpd(8)
 to send lines in the format of "IP OP filename".
 
 Hosts are matched by IP and requested filename.
@@ -44,7 +44,7 @@ The options are as follows:
 > **trd**
 > should create.
 > This needs to be passed to
-> tftpd(1)
+> tftpd(8)
 > via the
 > **-r**
 > option.
@@ -64,8 +64,8 @@ The options are as follows:
 
 # SEE ALSO
 
-tftpd(1),
-trd.conf(5)
+**trd.conf 5**,
+tftpd(8)
 
 # HISTORY
 
@@ -79,4 +79,4 @@ was released in May of 2016.
 was written by
 Aaron Bieber &lt;[aaron@bolddaemon.com](mailto:aaron@bolddaemon.com)&gt;.
 
-OpenBSD 6.1 - May 1, 2016
+OpenBSD 6.3 - May 1, 2016
