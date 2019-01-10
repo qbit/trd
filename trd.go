@@ -166,7 +166,7 @@ func main() {
 	}
 	dbg(fmt.Sprintf("setuid to: %s", u.Uid))
 
-	unix.Pledge("stdio rpath unix", nil)
+	unix.PledgePromises("stdio rpath unix")
 
 	for {
 		conn, err := ln.Accept()
